@@ -8,14 +8,17 @@ from model import load_model
 
 
 class ChatbotDataset(Dataset):
-    def __init__(self, encodings):
-        self.encodings = encodings
+    def __init__(self, dataframe):
+        self.encodings = dataframe['encodings'].tolist()
 
     def __getitem__(self, idx):
-        return {key: torch.tensor(val[idx]) for key, val in self.encodings.items()}
+        item = self.encodings[idx]
+        item['labels'] = item['input_ids'].clone()  # labels are usually the same as input_ids for LM tasks
+        return {key: torch.tensor(val) for key, val in item.items()}
 
     def __len__(self):
-        return len(self.encodings['input_ids'])
+        return len(self.encodings)
+
 
 def train(model_name, train_dataset, test_dataset):
     model = GPT2LMHeadModel.from_pretrained(model_name)
@@ -23,7 +26,7 @@ def train(model_name, train_dataset, test_dataset):
     training_args = TrainingArguments(
         output_dir='./model_save',
         num_train_epochs=3,
-        per_device_train_batch_size=4,
+        per_device_train_batch_size=2,
         warmup_steps=500,
         weight_decay=0.01,
         logging_dir='./logs',
