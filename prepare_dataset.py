@@ -4,7 +4,7 @@ from transformers import GPT2Tokenizer
 from sklearn.model_selection import train_test_split
 
 def process_batch(batch):
-    tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
+    tokenizer = GPT2Tokenizer.from_pretrained('gpt2-medium')
     tokenizer.pad_token = tokenizer.eos_token
     return [tokenizer.encode_plus(q, a, truncation=True, max_length=512, padding='max_length', return_tensors='pt') for q, a in batch]
 
