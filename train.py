@@ -5,6 +5,7 @@ from torch.utils.data import Dataset
 from transformers import Trainer, TrainingArguments
 from model import load_model
 
+
 class ChatbotDataset(Dataset):
     def __init__(self, dataframe):
         self.encodings = dataframe['encodings'].tolist()
@@ -12,12 +13,17 @@ class ChatbotDataset(Dataset):
     def __getitem__(self, idx):
         item = self.encodings[idx]
         item['labels'] = item['input_ids'].clone().detach()  # Copy of input_ids for labels
-        return {key: val.clone().detach() if isinstance(val, torch.Tensor) else torch.tensor(val) for key, val in item.items()}
+        return {key: torch.tensor(val).cuda() for key, val in item.items()}  # Move to GPU
 
     def __len__(self):
         return len(self.encodings)
 def train(model_name, train_dataset, test_dataset):
     model, tokenizer = load_model(model_name)
+    if torch.cuda.is_available():
+      model = model.cuda()
+    else:
+        print("CUDA is not available. Check your Colab runtime settings.")
+
     print(next(model.parameters()).device) 
     training_args = TrainingArguments(
         output_dir='./model_save',
