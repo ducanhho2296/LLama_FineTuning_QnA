@@ -1,33 +1,35 @@
 import json
 import pandas as pd
-from sklearn.model_selection import train_test_split
 from transformers import GPT2Tokenizer
-from concurrent.futures import ProcessPoolExecutor
+from sklearn.model_selection import train_test_split
 
-def tokenize_data(pair):
+def process_batch(batch):
     tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
-    return tokenizer.encode_plus(pair[0], pair[1], truncation=True, max_length=512, padding='max_length', return_tensors='pt')
+    tokenizer.pad_token = tokenizer.eos_token
+    return [tokenizer.encode_plus(q, a, truncation=True, max_length=512, padding='max_length', return_tensors='pt') for q, a in batch]
 
-def load_dataset(file_path):
-    pairs = []
+def load_batches(file_path, batch_size=1000):
     with open(file_path, 'r') as file:
+        batch, all_data = [], []
         for line in file:
             data = json.loads(line)
-            question = data['questionText']
-            answer = data['answers'][0]['answerText']
-            pairs.append((question, answer))
+            batch.append((data['questionText'], data['answers'][0]['answerText']))
+            if len(batch) == batch_size:
+                all_data.extend(process_batch(batch))
+                batch = []
+        if batch:  # Process the last batch
+            all_data.extend(process_batch(batch))
+    return pd.DataFrame({'encodings': all_data})
 
-    # Parallel tokenization
-    with ProcessPoolExecutor() as executor:
-        tokenized_pairs = list(executor.map(tokenize_data, pairs))
-
-    return pd.DataFrame({'encodings': tokenized_pairs})
+def save_dataframe(df, file_path):
+    df.to_pickle(file_path)
 
 def split_dataset(df, test_size=0.1):
-    train_df, test_df = train_test_split(df, test_size=test_size)
-    return train_df, test_df
+    return train_test_split(df, test_size=test_size)
 
 if __name__ == '__main__':
-    file_path = 'test-qar_all.jsonl'
-    df = load_dataset(file_path)
+    file_path = './dataset/test-qar_all.jsonl'
+    df = load_batches(file_path, batch_size=300)
     train_df, test_df = split_dataset(df)
+    save_dataframe(train_df, 'train_dataset.pkl')
+    save_dataframe(test_df, 'test_dataset.pkl')
