@@ -34,11 +34,11 @@ if __name__ == '__main__':
     # save_dataframe(train_df, 'train_dataset.pkl')
     # save_dataframe(test_df, 'test_dataset.pkl')
     # Create a smaller subset (10% of the original data)
-    
+
     subset_df = df.sample(frac=0.1, random_state=42)
     
     train_df, test_df = split_dataset(subset_df)
     
     # Save the resulting DataFrames to pickle files for later use in train.py
-    save_dataframe(train_df, 'subset_train_dataset.pkl')
-    save_dataframe(test_df, 'subset_test_dataset.pkl')
+    save_dataframe(train_df, 'train_dataset.pkl')
+    save_dataframe(test_df, 'test_dataset.pkl')
