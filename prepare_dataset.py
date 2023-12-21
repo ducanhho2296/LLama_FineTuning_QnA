@@ -30,6 +30,15 @@ def split_dataset(df, test_size=0.1):
 if __name__ == '__main__':
     file_path = './dataset/test-qar_all.jsonl'
     df = load_batches(file_path, batch_size=300)
-    train_df, test_df = split_dataset(df)
-    save_dataframe(train_df, 'train_dataset.pkl')
-    save_dataframe(test_df, 'test_dataset.pkl')
+    # train_df, test_df = split_dataset(df)
+    # save_dataframe(train_df, 'train_dataset.pkl')
+    # save_dataframe(test_df, 'test_dataset.pkl')
+    # Create a smaller subset (10% of the original data)
+    
+    subset_df = df.sample(frac=0.1, random_state=42)
+    
+    train_df, test_df = split_dataset(subset_df)
+    
+    # Save the resulting DataFrames to pickle files for later use in train.py
+    save_dataframe(train_df, 'subset_train_dataset.pkl')
+    save_dataframe(test_df, 'subset_test_dataset.pkl')
