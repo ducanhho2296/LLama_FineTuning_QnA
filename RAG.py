@@ -11,8 +11,10 @@ def load_gpt_model(path=None):
     
     return model
 
-model_path = "./model_save/"
-model = AutoModelForCausalLM.from_pretrained(model_path)
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--path', default='./model_save/', type=str, help='path to model')
+    args = parser.parse_args()
 
 #example
 querry = "What is langchain and explain it clearly with example."
