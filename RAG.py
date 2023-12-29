@@ -28,7 +28,6 @@ if __name__ == "__main__":
     #example
     querry = "What is langchain and explain it clearly with example."
 
-#example
 querry = "What is langchain and explain it clearly with example."
 
 #retrieve relevant documents
