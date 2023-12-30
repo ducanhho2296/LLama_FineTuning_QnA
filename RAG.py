@@ -31,5 +31,3 @@ if __name__ == "__main__":
     #retrieve relevant documents
     retrieved_docs = retriever.retrieve(querry)
 
-#retrieve relevant documents
-retrieved_docs = retriever.retrieve(querry)
