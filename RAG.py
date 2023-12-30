@@ -5,7 +5,9 @@ import argparse
 
 def load_gpt_model(path=None):
     if path and os.path.exists(path):
-        model = AutoModelForCausalLM.from_pretrained(path)    else:
+        model = AutoModelForCausalLM.from_pretrained(path)    
+    
+    else:
         #load gpt2 pretrained model from Hugging Face
         model = GPT2ForQuestionAnswering.from_pretrained("gpt2")
     
