@@ -31,3 +31,7 @@ if __name__ == "__main__":
     #retrieve relevant documents
     retrieved_docs = retriever.retrieve(querry)
 
+    #generate answer 
+    for doc in retrieved_docs:
+        input_text = f"{querry} Context: {doc['text']}"
+        input_ids = rag_tokenizer.encode(input_text, return_tensors="pt")
