@@ -35,3 +35,6 @@ if __name__ == "__main__":
     for doc in retrieved_docs:
         input_text = f"{querry} Context: {doc['text']}"
         input_ids = rag_tokenizer.encode(input_text, return_tensors="pt")
+        response_ids = model.generate(input_ids, max_length=50, num_return_sequences=1)
+        response = rag_tokenizer.decode(response_ids[0], skip_special_tokens=True)
+        print("Answer:", response)
