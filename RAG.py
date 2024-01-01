@@ -1,4 +1,4 @@
-from transformers import RagTokenizer, RagRetriever, RagSequenceForGeneration, AutoModelForCausalLM, AutoTokenizer, GPT2ForQuestionAnswering, GPT2Tokenizer
+from transformers import RagTokenizer, RagRetriever, AutoModelForCausalLM, GPT2ForQuestionAnswering
 import os
 import argparse
 
