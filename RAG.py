@@ -15,7 +15,7 @@ def load_gpt_model(path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--path', default='./model_save/', type=str, help='path to model')
+    parser.add_argument('--path', default=None, type=str, help='path to model')
     args = parser.parse_args()
     #load generative model
     model = load_gpt_model(args.path)
