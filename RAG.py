@@ -3,7 +3,7 @@ import os
 import argparse
 
 
-def load_gpt_model(path=None):
+def load_gpt_model(path):
     if path and os.path.exists(path):
         model = AutoModelForCausalLM.from_pretrained(path)    
     
