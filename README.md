@@ -1,4 +1,4 @@
-# LLM_CustomerServiceChatbot
+# Finetune Q&A LLM Chatbot using Amazon Q&A Dataset
 link to Colab:  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1-hCUkHW3Qx-cP7cyq6-WZKoBVRluPEIJ)
 
 This repository contains the code for a Q&A chatbot application leveraging the GPT-2 model. It is designed to provide intelligent, conversational responses to user queries, making it suitable for applications like customer service, information retrieval, and interactive dialogue systems.
