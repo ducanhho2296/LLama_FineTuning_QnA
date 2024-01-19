@@ -20,3 +20,6 @@ submit_button.click()
 # Wait for response 
 time.sleep(3)
 
+# Assertions and further actions
+# ...
+
