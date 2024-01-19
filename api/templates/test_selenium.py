@@ -23,3 +23,5 @@ time.sleep(3)
 # Assertions and further actions
 # ...
 
+# Close the WebDriver
+driver.quit()
